@@ -5,6 +5,11 @@ Created on Sat Nov  7 20:14:58 2020
 @authors: Lakshay Verma and Owen Kim
 """
 """
-Interim commit
+Interim commit #1
 """
-
+"""
+Interim commit #2
+"""
+"""
+Interim commit #3
+"""
