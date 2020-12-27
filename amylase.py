@@ -22,19 +22,6 @@ dfToArr = constDF.to_numpy()
 vectorModel = np.vectorize(modelReaction)
 S = np.linspace(0, 0.5, 100)
 
-
-#Invertase model at 24 degrees Celsius
-invertaseReaction24 = vectorModel(dfToArr[3][1], dfToArr[4][1], S, dfToArr[2][1])
-
-fig = plt.figure()
-
-plt.plot(S, invertaseReaction24, 'b-', label='24 ($^\circ$C)')
-plt.xlabel('Substrate Concentration [M]')
-plt.ylabel('Reaction Rate [M/min]')
-plt.title('Modelling of Invertase Reaction', fontweight='bold')
-plt.legend()
-plt.show()
-
 amylaseReactions = []
 
 S_amylase = np.linspace(0.0000004, 0.0000005, 100)

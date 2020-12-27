@@ -1,5 +1,5 @@
 # Capstone modelling
-Modelling various enzyematic reactions for creating honey without bees.
+Modelling various enzymatic reactions for creating honey without bees.
 
 Python version used is `3.8.5`
 
@@ -12,7 +12,7 @@ To install the packages listed in requirements.txt: `pip install -r requirements
 the txt file.
 
 If Pycharm is being used, [this link](https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html) is
-helpful in configuring the environment needed to run the python files.
+helpful in configuring the environment needed to run the python files with venv.
 
 Members: Owen Kim and Lakshay Verma
 
