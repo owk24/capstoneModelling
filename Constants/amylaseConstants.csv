@@ -1,0 +1,8 @@
+﻿Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Source,Notes
+0.000166667,47.62,,,50,323.15,6,https://www.iosrjournals.org/iosr-jestft/papers/vol2-issue4/C0241923.pdf?id=3625,beta
+,,,,,,,,
+0.00425,,,687,85,358.15,5,https://www.sciencedirect.com/science/article/pii/S014102291400060X?via%3Dihub,alpha w/ maltotrirose
+0.0182,,,237,85,358.15,5,https://www.sciencedirect.com/science/article/pii/S014102291400060X?via%3Dihub,alpha w/ maltotetrose
+0.0162,,,231,85,358.15,5,https://www.sciencedirect.com/science/article/pii/S014102291400060X?via%3Dihub,alpha w/ maltopentose
+9.73E-05,0.00043125,,,55,328.15,6,https://www.sciencedirect.com/science/article/pii/S1359511316305244,alpha immobilized
+0.00116,,,,,,,https://www.tandfonline.com/doi/pdf/10.1080/21691401.2018.1501378,alpha immobilized

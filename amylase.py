@@ -12,9 +12,9 @@ Import all relevant packages for analytics
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Helper import modellingHelper
+from Helper import modelHelper
 
-amylaseHelper = modellingHelper.modellingHelper(kmOne=69, kmTwo=69)
+amylaseHelper = modelHelper.modelHelper(kmOne=69, kmTwo=69)
 
 def modelReaction(kCat, vMax, S, Km, *args):
     reactionRate = vMax*(S/(Km+S))
