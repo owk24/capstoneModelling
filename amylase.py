@@ -3,6 +3,7 @@
 Created on Fri Nov 13 23:32:20 2020
 
 @author: Lakshay Verma and Owen Kim
+
 """
 
 '''
@@ -14,23 +15,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from Helper import modelHelper
 
-amylaseHelper = modelHelper.modelHelper(kmOne=69, kmTwo=69)
-
-def modelReaction(kCat, vMax, S, Km, *args):
-    reactionRate = vMax*(S/(Km+S))
-    return reactionRate
+amylaseHelper = modelHelper.modelHelper(kmOne=69, tempOne=69, kmTwo=69, tempTwo=69)
 
 constDF = pd.read_csv('constantValues.csv')    
 dfToArr = constDF.to_numpy()
-vectorModel = np.vectorize(modelReaction)
+vectorModel = np.vectorize(amylaseHelper.MichaelisModelReaction)
 S = np.linspace(0, 0.5, 100)
 
 amylaseReactions = []
 
-S_amylase = np.linspace(0.0000004, 0.0000005, 100)
+S_amylase = np.linspace(0, 0.000001, 100)
 
 for i in range(0, 5):
-    amylaseReactions.append(vectorModel(dfToArr[3][i+2], dfToArr[4][i+2], S_amylase, dfToArr[2][i+2]))
+    amylaseReactions.append(vectorModel(dfToArr[4][i+2], S_amylase, dfToArr[2][i+2]))
 
 fig = plt.figure()
 for i in range(0, 5):

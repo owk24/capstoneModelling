@@ -14,12 +14,12 @@ class modelHelper():
 
         return activationEnergy
 
-    def BindingAffinity(self, activationEnergy) -> float:
-        kmTwo = self.kmOne * np.exp((-activationEnergy/self.R) * ((1/self.tempTwo) - (1/self.tempOne)))
+    def BindingAffinity(self, kmKnown, tempKnown, tempDesired, activationEnergy) -> float:
+        kmDesired = kmKnown * np.exp((-activationEnergy/self.R) * ((1/tempDesired) - (1/tempKnown)))
 
-        return kmTwo
+        return kmDesired
 
     def MichaelisModelReaction(self, vMax, S, Km) -> float:
         reactionRate = vMax * S / (Km + S)
-
+        
         return reactionRate
