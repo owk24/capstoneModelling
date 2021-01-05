@@ -45,7 +45,7 @@ dfToArr = constDF.to_numpy()
 invertaseHelper = modelHelper.modelHelper(kmOne=dfToArr[0][0], tempOne=dfToArr[0][5], 
                                           kmTwo=dfToArr[1][0], tempTwo=dfToArr[1][5])
 
-activationEnergy = invertaseHelper.ClausiusClapeyronReturnActivationEnergy()
-print(invertaseHelper.BindingAffinityReturnKmDesired(invertaseHelper.kmOne, invertaseHelper.tempOne, 36, activationEnergy))
+activationEnergy = invertaseHelper.GetActivationEnergyFromClausiusClapeyron()
+print(invertaseHelper.GetDesiredKmFromActivationEnergy(invertaseHelper.kmOne, invertaseHelper.tempOne, 36, activationEnergy))
 
 
