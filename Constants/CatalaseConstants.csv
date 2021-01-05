@@ -1,0 +1,5 @@
+﻿Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Activation Energy (kcal/mol),Source,Notes
+0.025,,,6900000,25,298.15,6.8,7.2,https://pubmed.ncbi.nlm.nih.gov/15158713/,
+0.0465,,,1674000,37,310.15,7,,https://www.sciencedirect.com/science/article/pii/S0003986102000498?via%3Dihub#FIG2,Below 200 mM catalse exhibits M-M behaviour but after it DOES NOT
+0.01331,0.014304,,,35,308.15,7,,https://iopscience.iop.org/article/10.1088/1755-1315/58/1/012068/pdf,
+0.02,0.0132,0.00000032,41250,37,310.15,7,,https://www.tandfonline.com/doi/full/10.3109/14756366.2013.848203,Using bovine catalase from Sigma Aldrich
