@@ -8,18 +8,18 @@ class modelHelper():
         self.kmTwo = kmTwo
         self.tempTwo = tempTwo
 
-    def ClausiusClapeyron(self) -> float:
+    def ClausiusClapeyronReturnActivationEnergy(self) -> float:
         activationEnergy = self.R * (self.tempOne*self.tempTwo/(self.tempTwo - self.tempOne)) \
                            * np.log(self.kmOne / self.kmTwo)
 
         return activationEnergy
 
-    def BindingAffinity(self, kmKnown, tempKnown, tempDesired, activationEnergy) -> float:
+    def BindingAffinityReturnDesiredKm(self, kmKnown, tempKnown, tempDesired, activationEnergy) -> float:
         kmDesired = kmKnown * np.exp((-activationEnergy/self.R) * ((1/tempDesired) - (1/tempKnown)))
 
         return kmDesired
 
-    def MichaelisModelReaction(self, vMax, S, Km) -> float:
+    def MichaelisModelReactionReturnRate(self, vMax, S, Km) -> float:
         reactionRate = vMax * S / (Km + S)
         
         return reactionRate
