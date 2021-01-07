@@ -11,6 +11,7 @@ PACKAGES
 Import all relevant packages for analytics
 '''
 
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -39,7 +40,7 @@ initialSucroseConc = 10
 initialEnzymeConc = 0.1
 initialInhibitorConc = 0
 
-constDF = pd.read_csv('Constants\InvertaseConstants.csv')    
+constDF = pd.read_csv(Path("Constants") / "InvertaseConstants.csv")
 dfToArr = constDF.to_numpy()
 
 invertaseHelper = modelHelper.modelHelper(kmOne=dfToArr[0][0], tempOne=dfToArr[0][5], 
