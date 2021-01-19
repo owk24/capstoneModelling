@@ -1,6 +1,8 @@
-Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),Source,Notes
-0.0209143,0.000007196,7.26E-08,99.1184573,24,297.15,https://regressioninbiologicalchemistry.weebly.com/Michaelis-Menten-Kinetics-of-Invertase.html,dwdadwa
-0.017182,0.00045819,2.22222E-10,2061855.67,55,328.15,https://open.library.ubc.ca/cIRcle/collections/undergraduateresearch/51869/items/1.0107229,dwadaw
-0.024,0.001,,,40,313.15,,
-,,,,,,,
-,,,,,,https://www.scielo.br/scielo.php?pid=S0104-66321999000200006&script=sci_arttext,Contains info about the inhibition of glucose and fructose
+Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Source,Notes,,
+0.0209143,0.00000718,7.26E-08,98.9095,24,297.15,,https://regressioninbiologicalchemistry.weebly.com/Michaelis-Menten-Kinetics-of-Invertase.html,dwdadwa,,
+0.0418,0.00000065,,,25,298.15,4.6,https://www.sciencedirect.com/science/article/pii/S1381514800000365,Immobilized Polyazotetrahydrofuran/,,
+0.0333,0.00000087,,,25,298.15,4.6,https://www.sciencedirect.com/science/article/pii/S1381514800000365,Immobilized Polytetrahydrofuran-block- polystyrene/polypyrrole,,
+0.0243,0.00008230,,,25,298.15,4.6,https://www.sciencedirect.com/science/article/pii/S1381514800000365,Free,,
+0.01175,0.00000195,,,30,303.15,6,https://www.researchgate.net/publication/330470517_The_Properties_of_Immobilized_Invertase_Onto_a_New_Support_Material_PolyMethacrylamideMaleic_Acid_Copolymeric_Hydrogel,Free,,
+0.06724,0.00006060,,,35,308.15,5,https://www.researchgate.net/publication/330470517_The_Properties_of_Immobilized_Invertase_Onto_a_New_Support_Material_PolyMethacrylamideMaleic_Acid_Copolymeric_Hydrogel,PolyMethacrylamide,,
+0.07455,0.00001812,,,40,313.15,5.5,https://www.researchgate.net/publication/330470517_The_Properties_of_Immobilized_Invertase_Onto_a_New_Support_Material_PolyMethacrylamideMaleic_Acid_Copolymeric_Hydrogel,Poly(Methacrylamide/Maleic Acid),,
