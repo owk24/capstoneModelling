@@ -19,7 +19,7 @@ amylaseHelper = modelHelper.modelHelper(kmOne=69, tempOne=69, kmTwo=69, tempTwo=
 
 constDF = pd.read_csv('constantValues.csv')    
 dfToArr = constDF.to_numpy()
-vectorModel = np.vectorize(amylaseHelper.MichaelisModelReaction)
+vectorModel = np.vectorize(amylaseHelper.GetRateFromMichaelisModelReaction)
 S = np.linspace(0, 0.5, 100)
 
 amylaseReactions = []
