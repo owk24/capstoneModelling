@@ -47,6 +47,6 @@ invertaseHelper = modelHelper.modelHelper(kmOne=dfToArr[0][0], tempOne=dfToArr[0
                                           kmTwo=dfToArr[1][0], tempTwo=dfToArr[1][5])
 
 activationEnergy = invertaseHelper.GetActivationEnergyFromClausiusClapeyron()
-print(invertaseHelper.GetDesiredKmFromActivationEnergy(invertaseHelper.kmOne, invertaseHelper.tempOne, 36, activationEnergy))
+print(invertaseHelper.GetDesiredKmFromActivationEnergy(invertaseHelper.kmOne, invertaseHelper.tempOne, 309, activationEnergy))
 
 
