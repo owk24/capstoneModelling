@@ -15,38 +15,29 @@ from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from scipy.optimize import fsolve
 from Helper import modelHelper
 
-'''
-Alternative "inhibition" model. To be investigated......
-'''
-
-# Ki Km has units of g/L and beta has no units
-KiFruc = 47.99
-KmFruc = 19.84
-betaFruc = 0.421
-
-KiGluc = 10.73
-KmGluc = 14.19
-betaGluc = 0.64
-
-# Defines the non-competitive inhibitor model that is described in
-# https://www.scielo.br/scielo.php?script=sci_arttext&pid=S0104-66321999000200006
-def partialNonCompModel(Vm, beta, Ki, Km, S, I):
-    return (Vm*S*(1+beta*I)/Ki)/((S+Km)*(1+I/Ki))
-
-# Input conditions for the reaction (g/L)
-initialSucroseConc = 10
-initialEnzymeConc = 0.1
-initialInhibitorConc = 0
-
 constDF = pd.read_csv(Path("Constants") / "InvertaseConstants.csv")
-dfToArr = constDF.to_numpy()
+kmOne = constDF["Km (M)"][3]
+tempOne = constDF["Temperature (K)"][3]
+kmTwo = constDF["Km (M)"][4]
+tempTwo = constDF["Temperature (K)"][4]
 
-invertaseHelper = modelHelper.modelHelper(kmOne=dfToArr[0][0], tempOne=dfToArr[0][5], 
-                                          kmTwo=dfToArr[1][0], tempTwo=dfToArr[1][5])
+invertaseHelper = modelHelper.modelHelper(kmOne, tempOne, kmTwo, tempTwo)
 
-activationEnergy = invertaseHelper.GetActivationEnergyFromClausiusClapeyron()
-print(invertaseHelper.GetDesiredKmFromActivationEnergy(invertaseHelper.kmOne, invertaseHelper.tempOne, 309, activationEnergy))
+# activationEnergy = invertaseHelper.GetActivationEnergyFromClausiusClapeyron()
+# reactionTemp = 30+273.15
+# kmAtReactionTemp = invertaseHelper.GetDesiredKmFromActivationEnergy(
+#     kmKnown=kmOne, tempKnown=tempOne, tempDesired=reactionTemp, activationEnergy=activationEnergy)
 
+def substrateModelCSTR(S):
+    return initialSubstrateConc - S - residenceTime*(vMax*S)/(kM+S)
+initialSubstrateConc = 10000/(270*1000) #100g/L, molar mass: 270 2Da
+kM = constDF["Km (M)"][3]
+vMax = constDF["Vm (M/min)"][3]
+residenceTime = 10 # minutes
+
+finalSubstrateConcentration = fsolve(substrateModelCSTR, 0.005)
+print(finalSubstrateConcentration)
 
