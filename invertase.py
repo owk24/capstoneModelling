@@ -30,7 +30,7 @@ def model(inputs, t, index) -> [float, float, float]:
 
 initialG = 0
 initialF = 0
-initialS = 100/58040 #100g/L, 58400kDa molar mass
+initialS = 100/58040 #100g/L, 58.4kDa molar mass
 
 initialConditions = [initialG, initialF, initialS]
 
