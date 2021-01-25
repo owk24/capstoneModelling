@@ -58,12 +58,12 @@ print(kmAtReactorConditions)
 MASS BALANCE
 '''
 
-initSubstrateConc = 100/58400 # 5 g/L Starch
+initSubstrateConc = 100/359.33 # 100 g/L Starch
 #flowrate = 5 #(L/min)
 #volumeOfReactor = 5 #L
 vMax = dfToArr[5][1] #(M/min)
 bindingAffinity = dfToArr[5][0] #(M)
 
-residenceTime = 1000
+residenceTime = 6000
 
 substrateModellingEquation = fsolve(substrateModelCSTR, 0.000001)
