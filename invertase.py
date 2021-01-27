@@ -6,7 +6,6 @@ import pandas as pd
 from scipy.integrate import odeint
 from Helper import modelHelper
 
-concentrationOfComponents = []
 constDF = pd.read_csv(Path("Constants") / "InvertaseConstants.csv")
 kmOne = constDF["Km (M)"][3]
 tempOne = constDF["Temperature (K)"][3]
