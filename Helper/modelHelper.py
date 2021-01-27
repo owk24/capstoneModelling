@@ -23,5 +23,3 @@ class modelHelper():
         reactionRate = vMax * S / (Km + S)
         
         return reactionRate
-
-    

@@ -56,6 +56,7 @@ plt.show()
 #via a paper, and thus no need to extrapolate values.
 activationEnergy = amylaseHelper.GetActivationEnergyFromClausiusClapeyron()
 reactorTemp = 70+273.15
+
 kmAtReactorConditions = amylaseHelper.GetDesiredKmFromActivationEnergy(
     kmKnown=dfToArr[5][0], tempKnown=dfToArr[5][5],
     tempDesired = reactorTemp, activationEnergy=activationEnergy)
