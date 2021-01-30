@@ -17,7 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy as sp
 from scipy.optimize import fsolve
-from Helper import modelHelper
+from Helper import ModelHelper
 
 def substrateModelCSTR(S):
     return initSubstrateConc - S - residenceTime*(vMax*S)/(bindingAffinity+S)
@@ -26,9 +26,9 @@ constDF = pd.read_csv(Path("Constants") / "amylaseConstants.csv")
 dfToArr = constDF.to_numpy()
 molarMassOfProduct = 180.16 #g/mol
 
-amylaseHelper = modelHelper.modelHelper(kmOne=dfToArr[5][0], 
-                                        tempOne=dfToArr[5][5], 
-                                        kmTwo=dfToArr[9][0], 
+amylaseHelper = ModelHelper.modelHelper(kmOne=dfToArr[5][0],
+                                        tempOne=dfToArr[5][5],
+                                        kmTwo=dfToArr[9][0],
                                         tempTwo=dfToArr[9][5])
 
 vectorModel = np.vectorize(amylaseHelper.GetRateFromMichaelisModelReaction)

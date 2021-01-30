@@ -7,4 +7,4 @@ Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Source,N
 0.06724,0.0000606,,,35,308.15,5,https://www.researchgate.net/publication/330470517_The_Properties_of_Immobilized_Invertase_Onto_a_New_Support_Material_PolyMethacrylamideMaleic_Acid_Copolymeric_Hydrogel,PolyMethacrylamide
 0.07455,0.00001812,,,40,313.15,5.5,https://www.researchgate.net/publication/330470517_The_Properties_of_Immobilized_Invertase_Onto_a_New_Support_Material_PolyMethacrylamideMaleic_Acid_Copolymeric_Hydrogel,Poly(Methacrylamide/Maleic Acid)
 0.024,0.001,,,40,313.15,,https://www.longdom.org/open-access/investigation-of-some-kinetic-properties-of-commercial-invertase-from-yeast-2329-6836.1000152.pdf,Commercial invertase from yeast
-0.038,,,205800,50,323.15,4.8,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3165384/,"Wild type enzyme, 1.75M Sucrose was used get the results, "
+0.038,,,205800,50,323.15,4.8,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3165384/,"Wild type enzyme, 1.75M Sucrose was used get the results, From Saccharomyces cerevisiae"
