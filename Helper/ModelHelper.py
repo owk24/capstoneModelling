@@ -24,8 +24,6 @@ class ModelHelper:
 
     def GetRatesVersusTimeFromModel(self, t, km, kcat, initialConditions, initialEnzymeConc):
         def model(inputs, t, Km, Kcat, initialEnzymeConcentration):
-            print("DAWDAWGBDHJAWGDYUAWGDHUAGUAWYI")
-
             Vm = Kcat * initialEnzymeConcentration
             r = Vm * inputs[2] / (Km + inputs[2])
             dGdt = r

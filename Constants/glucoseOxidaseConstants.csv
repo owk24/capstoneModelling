@@ -2,5 +2,5 @@ Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Source,N
 0.09226,0.07407,,,40,313.15,,https://dergipark.org.tr/tr/download/article-file/380286 ,
 ,,,,50,323.15,5,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4111585/,
 ,,,,,,,https://www.sciencedirect.com/science/article/pii/S0168165610019917,
-0.022,,,4800,25,298.15,5.5,https://link.springer.com/article/10.1007/s12010-011-9366-0,Wild-type enzyme
-,,,,,,,,
+0.022,,,3480,25,298.15,5.5,https://link.springer.com/article/10.1007/s12010-011-9366-0,Wild-type enzyme
+0.0071,,,38460,37,310.15,5,https://www.imedpub.com/articles/glucose-oxidase-from-aspergillus-nigerproduction-characterization-and-immobilization-for-glucose-oxidation.pdf,"Free enzyme, MM roughly 160kDa"
