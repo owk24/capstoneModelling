@@ -17,14 +17,13 @@ class ModelHelper:
 
         return kmDesired
 
-    def GetRateFromMichaelisModelReaction(self, vMax, S, Km) -> float:
-        reactionRate = vMax * S / (Km + S)
+    def GetRateFromMichaelisModelReaction(self, Km, Vmax, S) -> float:
+        reactionRate = Vmax * S / (Km + S)
         
         return reactionRate
 
-    def GetRatesVersusTimeFromModel(self, t, km, kcat, initialConditions, initialEnzymeConc):
-        def model(inputs, t, Km, Kcat, initialEnzymeConcentration):
-            Vm = Kcat * initialEnzymeConcentration
+    def GetRatesVersusTimeFromModel(self, t, Km, Vm, initialConditions):
+        def model(inputs, t, Km, Vm):
             r = Vm * inputs[2] / (Km + inputs[2])
             dGdt = r
             dFdt = r
@@ -32,10 +31,13 @@ class ModelHelper:
             outputs = [dGdt, dFdt, dSdt]
 
             return outputs
-        concentrationOfComponents = odeint(model, initialConditions, t, args=(km, kcat, initialEnzymeConc))
-        concentrationDf = pd.DataFrame({"Glucose [M/min]": concentrationOfComponents[:, 0],
-                                        "Fructose [M/min]": concentrationOfComponents[:, 1],
-                                        "Sucrose [M/min]": concentrationOfComponents[:, 2]})
-        concentrationDf.index.name = "Time [min]"
+
+        concentrationOfComponents = odeint(model, initialConditions, t, args=(Km, Vm))
+        forwardRateArray = self.GetRateFromMichaelisModelReaction(Km, Vm, concentrationOfComponents[:, 2])
+        concentrationDf = pd.DataFrame({"Time [min]": t,
+                                        "Glucose [M]": concentrationOfComponents[:, 0],
+                                        "Fructose [M]": concentrationOfComponents[:, 1],
+                                        "Sucrose [M]": concentrationOfComponents[:, 2],
+                                        "Forward Rate [M/s]": forwardRateArray})
 
         return concentrationDf
