@@ -79,7 +79,7 @@ prodFormedList = []
 substrateOutList = []
 
 masterDataAmylase = pd.DataFrame()
-masterDataAmylase['Time'] = residenceTimeArr
+masterDataAmylase['Residence Time'] = residenceTimeArr
 
 
 for j in initEnzymeConcentration:
@@ -106,7 +106,7 @@ fig = plt.figure()
 titles = masterDataAmylase.columns
 
 for i in range(1, len(titles)):
-    plt.plot(masterDataAmylase['Time'], masterDataAmylase[titles[i]], label=titles[i])
+    plt.plot(masterDataAmylase['Residence Time'], masterDataAmylase[titles[i]], label=titles[i])
 
 
 plt.xlabel("Residence Time [min]")
