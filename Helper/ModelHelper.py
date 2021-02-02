@@ -12,7 +12,7 @@ class ModelHelper:
         folderDirectoryCSVs = "./{:s}/CSVs".format(enzymeType)
         folderDirectoryGraphs = "./{:s}/Graphs".format(enzymeType)
         os.makedirs(Path(folderDirectoryCSVs), exist_ok=True)
-        os.makedirs(Path(folderDirectoryGraphs).format(enzymeType), exist_ok=True)
+        os.makedirs(Path(folderDirectoryGraphs), exist_ok=True)
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
         activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
