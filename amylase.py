@@ -29,39 +29,39 @@ molarMassOfProduct = 180.16 #g/mol
 amylaseHelper = ModelHelper()
 amylaseHelper.CreateFoldersForOutput("Amylase")
 
-vectorModel = np.vectorize(amylaseHelper.GetRateFromMichaelisModelReaction)
-amylaseReactions = []
-
-S_amylase = np.linspace(2e-7, 6e-6, 100)
-
-for i in range(5, 10):
-    amylaseReactions.append(vectorModel(dfToArr[i][1], S_amylase, 
-                                        dfToArr[i][0]))
-
-fig = plt.figure()
-for i in range(5, 10):
-    plt.plot(S_amylase, amylaseReactions[i-5], label=str(dfToArr[i][4]) + 
-             '($^\circ$C)')
-
-plt.xlabel('Substrate Concentration [M]')
-plt.ylabel('Reaction Rate [M/min]')
-plt.title('Modelling of Amylase Reaction', fontweight='bold')
-plt.legend()
-plt.show()
-
-#Use Clausius Clapeyron with given datapoints to determine activation energy
-#NOTE: This is not in use anymore. Km and Vmax were found at optimal conditions
-#via a paper, and thus no need to extrapolate values.
-activationEnergy = amylaseHelper.GetActivationEnergyFromClausiusClapeyron(
-                                        tempOne=dfToArr[5][5],
-                                        kmOne=dfToArr[5][0],
-                                        tempTwo=dfToArr[9][5],
-                                        kmTwo=dfToArr[9][0])
-reactorTemp = 70+273.15
-
-kmAtReactorConditions = amylaseHelper.GetDesiredKmFromActivationEnergy(
-    kmKnown=dfToArr[5][0], tempKnown=dfToArr[5][5],
-    tempDesired = reactorTemp, activationEnergy=activationEnergy)
+# vectorModel = np.vectorize(amylaseHelper.GetRateFromMichaelisModelReaction)
+# amylaseReactions = []
+#
+# S_amylase = np.linspace(2e-7, 6e-6, 100)
+#
+# for i in range(5, 10):
+#     amylaseReactions.append(vectorModel(dfToArr[i][1], S_amylase,
+#                                         dfToArr[i][0]))
+#
+# fig = plt.figure()
+# for i in range(5, 10):
+#     plt.plot(S_amylase, amylaseReactions[i-5], label=str(dfToArr[i][4]) +
+#              '($^\circ$C)')
+#
+# plt.xlabel('Substrate Concentration [M]')
+# plt.ylabel('Reaction Rate [M/min]')
+# plt.title('Modelling of Amylase Reaction', fontweight='bold')
+# plt.legend()
+# plt.show()
+#
+# # Use Clausius Clapeyron with given datapoints to determine activation energy
+# # NOTE: This is not in use anymore. Km and Vmax were found at optimal conditions
+# # via a paper, and thus no need to extrapolate values.
+# activationEnergy = amylaseHelper.GetActivationEnergyFromClausiusClapeyron(
+#                                         tempOne=dfToArr[5][5],
+#                                         kmOne=dfToArr[5][0],
+#                                         tempTwo=dfToArr[9][5],
+#                                         kmTwo=dfToArr[9][0])
+# reactorTemp = 70+273.15
+#
+# kmAtReactorConditions = amylaseHelper.GetDesiredKmFromActivationEnergy(
+#     kmKnown=dfToArr[5][0], tempKnown=dfToArr[5][5],
+#     tempDesired = reactorTemp, activationEnergy=activationEnergy)
 
 '''
 MASS BALANCE
@@ -74,7 +74,7 @@ kcat = constDF['Kcat (1/min)'][9] #1/min
 bindingAffinity = constDF['Km (M)'][9] #M
 temperature = constDF['Temperature (C)'][9]
 
-residenceTimeArr = np.linspace(0, 4000, 100) #min
+residenceTimeArr = np.linspace(0, 4000, 500) #min
 prodFormedList = []
 substrateOutList = []
 
@@ -83,8 +83,8 @@ masterDataAmylase['Time'] = residenceTimeArr
 
 
 for j in initEnzymeConcentration:
-    vMax = kcat * j #(M/min)
-    for i in range(0,len(residenceTimeArr)):
+    vMax = kcat * j #(M/min)`
+    for i in range(0, len(residenceTimeArr)):
         residenceTime = residenceTimeArr[i]
         finalSubstrateConcentration = fsolve(substrateModelCSTR, 0.03)
         if finalSubstrateConcentration < 0:
@@ -118,7 +118,7 @@ plt.legend(loc="best")
 plt.show()
 
 masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
-            "Invertase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
+            "Amylase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
 # plt.savefig(Path("Output/Amylase/Graphs") /
 #             "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
 
