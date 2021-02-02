@@ -15,12 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import scipy as sp
-from scipy.optimize import fsolve
 from Helper.ModelHelper import ModelHelper
-
-def substrateModelCSTR(S):
-    return initSubstrateConc - S - residenceTime*(vMax*S)/(bindingAffinity+S)
 
 constDF = pd.read_csv(Path("Constants") / "AmylaseConstants.csv")   
 dfToArr = constDF.to_numpy()
@@ -91,32 +86,6 @@ masterDataAmylase = amylaseHelper.GetConversionVsResidenceTimeWithCstr(initSubst
                                                                        bindingAffinity,
                                                                        reactants,
                                                                        products)
-
-
-# for j in initEnzymeConcentration:
-#     vMax = kcat * j #(M/min)`
-#     for i in range(0, len(residenceTimeArr)):
-#         residenceTime = residenceTimeArr[i]
-#         finalSubstrateConcentration = fsolve(substrateModelCSTR, 0.03)
-#         if finalSubstrateConcentration < 0:
-#             prodFormedList.append(prodFormedList[i-1])
-#             substrateOutList.append(substrateOutList[i-1])
-#             conversionList.append(conversionList[i-1])
-#         else:
-#             substrateOutList.append(finalSubstrateConcentration[0])
-#             productFormed = initSubstrateConc - finalSubstrateConcentration
-#             prodFormedList.append(productFormed[0])
-#             gramsOfProductFormed = productFormed * molarMassOfProduct
-#             conversion = (initSubstrateConc - finalSubstrateConcentration)/initSubstrateConc
-#             conversionList.append(conversion[0])
-#
-#     masterDataAmylase["Glucose [M] - [Eo] = {:.2e}M".format(j)] = prodFormedList
-#     masterDataAmylase["Maltose [M] - [Eo] = {:.2e}M".format(j)] = prodFormedList
-#     masterDataAmylase["Starch [M] - [Eo] = {:.2e}M".format(j)] = substrateOutList
-#     masterDataAmylase["Conversion - [Eo] = {:.2e}M".format(j)] = conversionList
-#     prodFormedList = []
-#     substrateOutList = []
-#     conversionList = []
 
 titles = masterDataAmylase.columns
 
