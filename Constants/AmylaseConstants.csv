@@ -1,0 +1,11 @@
+Km (M),Vm (M/min),E (M),Kcat (1/min),Temperature (C),Temperature (K),pH,Source,Notes
+0.000166667,47.62,,,50,323.15,6,https://www.iosrjournals.org/iosr-jestft/papers/vol2-issue4/C0241923.pdf?id=3625,beta
+9.73E-05,0.00043125,,,55,328.15,6,https://www.sciencedirect.com/science/article/pii/S1359511316305244,alpha immobilized
+6.43E-06,3.33E-06,,,30,303.15,5.02,https://www.sciencedirect.com/science/article/pii/S0040603114000239,no mention of molar mass but assumed to be 58.4 kDa
+6.82E-06,3.35E-06,,,37,310.15,5.02,https://www.sciencedirect.com/science/article/pii/S0040603114000239,no mention of molar mass but assumed to be 58.4 kDa
+6.97E-06,3.36E-06,,,40,313.15,5.02,https://www.sciencedirect.com/science/article/pii/S0040603114000239,no mention of molar mass but assumed to be 58.4 kDa
+6.88E-06,3.35E-06,,,44,317.15,5.02,https://www.sciencedirect.com/science/article/pii/S0040603114000239,no mention of molar mass but assumed to be 58.4 kDa
+6.61E-06,3.33E-06,,,48,321.15,5.02,https://www.sciencedirect.com/science/article/pii/S0040603114000239,no mention of molar mass but assumed to be 58.4 kDa
+0.007068711,0.000185,,,38.4,311.55,5.7,https://www.researchgate.net/publication/291185608_Adipokinetic_hormones_control_amylase_activity_in_the_cockroach_Periplaneta_americana_gut,
+0.005550074,,,41664,70,343.15,7,https://www.scielo.br/scielo.php?script=sci_arttext&pid=S1516-89132016000100605,With potato starch
+0.001752727,,,482,80,353.15,8,https://www.sciencedirect.com/science/article/pii/S0141813018352012?via%3Dihub,"With potato starch, enzyme is https://www.sigmaaldrich.com/catalog/product/sigma/a4862?lang=en&region=CA"
