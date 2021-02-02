@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.integrate import odeint
@@ -5,6 +7,12 @@ from scipy.integrate import odeint
 class ModelHelper:
     def __init__(self):
         self.R = 8.314
+
+    def CreateFoldersForOutput(self, enzymeType) -> None:
+        folderDirectoryCSVs = "./{:s}/CSVs".format(enzymeType)
+        folderDirectoryGraphs = "./{:s}/Graphs".format(enzymeType)
+        os.makedirs(Path(folderDirectoryCSVs), exist_ok=True)
+        os.makedirs(Path(folderDirectoryGraphs).format(enzymeType), exist_ok=True)
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
         activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
