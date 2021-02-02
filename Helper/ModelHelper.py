@@ -9,8 +9,8 @@ class ModelHelper:
         self.R = 8.314
 
     def CreateFoldersForOutput(self, enzymeType) -> None:
-        folderDirectoryCSVs = "./{:s}/CSVs".format(enzymeType)
-        folderDirectoryGraphs = "./{:s}/Graphs".format(enzymeType)
+        folderDirectoryCSVs = "./Output/{:s}/CSVs".format(enzymeType)
+        folderDirectoryGraphs = "./Output/{:s}/Graphs".format(enzymeType)
         os.makedirs(Path(folderDirectoryCSVs), exist_ok=True)
         os.makedirs(Path(folderDirectoryGraphs), exist_ok=True)
 

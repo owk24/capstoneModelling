@@ -118,7 +118,7 @@ plt.legend(loc="best")
 plt.show()
 
 masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
-            "Invertase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
-# plt.savefig(Path("Output/Amylase/Graphs") /
-#             "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
+            "Amylase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
+plt.savefig(Path("Output/Amylase/Graphs") /
+            "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
 
