@@ -69,14 +69,15 @@ MASS BALANCE
 
 initialMassStarch = 5 # g Starch/L
 initSubstrateConc = initialMassStarch/359.33 # mol Starch/L 
-initEnzymeConcentration = np.linspace(1e-8, 9e-8, 5) #M
+initEnzymeConcentration = np.linspace(1e-7, 9e-7, 5) #M
 kcat = constDF['Kcat (1/min)'][9] #1/min
 bindingAffinity = constDF['Km (M)'][9] #M
 temperature = constDF['Temperature (C)'][9]
 
-residenceTimeArr = np.linspace(0, 4000, 500) #min
+residenceTimeArr = np.linspace(0, 480, 500) #min
 prodFormedList = []
 substrateOutList = []
+conversionList = []
 
 masterDataAmylase = pd.DataFrame()
 masterDataAmylase['Residence Time'] = residenceTimeArr
@@ -90,36 +91,41 @@ for j in initEnzymeConcentration:
         if finalSubstrateConcentration < 0:
             prodFormedList.append(prodFormedList[i-1])
             substrateOutList.append(substrateOutList[i-1])
+            conversionList.append(conversionList[i-1])
         else:
             substrateOutList.append(finalSubstrateConcentration[0])
             productFormed = initSubstrateConc - finalSubstrateConcentration
             prodFormedList.append(productFormed[0])
             gramsOfProductFormed = productFormed * molarMassOfProduct
-    
+            conversion = (initSubstrateConc - finalSubstrateConcentration)/initSubstrateConc
+            conversionList.append(conversion[0])
+            
     masterDataAmylase["Glucose [M] - [Eo] = {:.2e}M".format(j)] = prodFormedList
     masterDataAmylase["Maltose [M] - [Eo] = {:.2e}M".format(j)] = prodFormedList
     masterDataAmylase["Starch [M] - [Eo] = {:.2e}M".format(j)] = substrateOutList
+    masterDataAmylase["Conversion - [Eo] = {:.2e}M".format(j)] = conversionList
     prodFormedList = []
     substrateOutList = []
+    conversionList = []
 
 fig = plt.figure()
 titles = masterDataAmylase.columns
 
-for i in range(1, len(titles)):
+for i in range(4, len(titles), 4):
     plt.plot(masterDataAmylase['Residence Time'], masterDataAmylase[titles[i]], label=titles[i])
 
 
 plt.xlabel("Residence Time [min]")
-plt.ylabel("Concentration [M]")
-plt.title("Amylase - Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
+plt.ylabel("Conversion [M]")
+plt.title("Conversion vs Residence Time - Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
                                                                 bindingAffinity)
           ,fontweight='bold')
 plt.legend(loc="best")
 plt.show()
 
-masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
-            "Amylase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
-plt.savefig(Path("Output/Amylase/Graphs") /
-            "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
+# masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
+#             "Amylase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, bindingAffinity))
+# plt.savefig(Path("Output/Amylase/Graphs") /
+#             "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
 
 
