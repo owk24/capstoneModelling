@@ -17,7 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy as sp
 from scipy.optimize import fsolve
-from Helper import ModelHelper
+from Helper.ModelHelper import ModelHelper
 
 def substrateModelCSTR(S):
     return initSubstrateConc - S - residenceTime*(vMax*S)/(bindingAffinity+S)
@@ -26,10 +26,7 @@ constDF = pd.read_csv(Path("Constants") / "amylaseConstants.csv")
 dfToArr = constDF.to_numpy()
 molarMassOfProduct = 180.16 #g/mol
 
-amylaseHelper = ModelHelper.modelHelper(kmOne=dfToArr[5][0],
-                                        tempOne=dfToArr[5][5],
-                                        kmTwo=dfToArr[9][0],
-                                        tempTwo=dfToArr[9][5])
+amylaseHelper = ModelHelper()
 
 vectorModel = np.vectorize(amylaseHelper.GetRateFromMichaelisModelReaction)
 amylaseReactions = []
@@ -54,7 +51,11 @@ plt.show()
 #Use Clausius Clapeyron with given datapoints to determine activation energy
 #NOTE: This is not in use anymore. Km and Vmax were found at optimal conditions
 #via a paper, and thus no need to extrapolate values.
-activationEnergy = amylaseHelper.GetActivationEnergyFromClausiusClapeyron()
+activationEnergy = amylaseHelper.GetActivationEnergyFromClausiusClapeyron(
+                                        tempOne=dfToArr[5][5],
+                                        kmOne=dfToArr[5][0],
+                                        tempTwo=dfToArr[9][5],
+                                        kmTwo=dfToArr[9][0])
 reactorTemp = 70+273.15
 
 kmAtReactorConditions = amylaseHelper.GetDesiredKmFromActivationEnergy(
@@ -67,17 +68,17 @@ MASS BALANCE
 
 initialMassStarch = 5 # g Starch/L
 initSubstrateConc = initialMassStarch/359.33 # mol Starch/L 
-#flowrate = 5 #(L/min)
-#volumeOfReactor = 5 #L
-vMax = dfToArr[10][1] #(M/min)
-bindingAffinity = dfToArr[10][0] #(M)
+initEnzymeConcentration = 9e-8 #M
+kcat = constDF['Kcat (1/min)'][9] #1/min
+vMax = kcat * initEnzymeConcentration #(M/min)
+bindingAffinity = constDF['Km (M)'][9] #M
 
-residenceTime = 240
+residenceTime = 120
 
-finalSubstrateConcentration = fsolve(substrateModelCSTR, 0.000001)
+finalSubstrateConcentration = fsolve(substrateModelCSTR, 0.03)
 productFormed = initSubstrateConc - finalSubstrateConcentration
 gramsOfProductFormed = productFormed * molarMassOfProduct
-print("\nConditions: " + str(dfToArr[10][4]) + " degrees Celsius")
+print("\nConditions: " + str(constDF['Temperature (C)'][9]) + " degrees Celsius")
 print("For a residence time of " + str(residenceTime) + " minutes, and an initial" 
       + " substrate concentration of " + str(initialMassStarch) + " g starch/L, " +
       str(gramsOfProductFormed) + " g/L of glucose formed")

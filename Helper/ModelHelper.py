@@ -15,8 +15,8 @@ class ModelHelper:
         os.makedirs(Path(folderDirectoryGraphs).format(enzymeType), exist_ok=True)
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
-        activationEnergy = self.R * (self.tempOne*self.tempTwo/(self.tempTwo - self.tempOne)) \
-                           * np.log(self.kmOne / self.kmTwo)
+        activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
+                           * np.log(kmOne / kmTwo)
 
         return activationEnergy
 
