@@ -7,8 +7,8 @@ class ModelHelper:
         self.R = 8.314
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
-        activationEnergy = self.R * (self.tempOne*self.tempTwo/(self.tempTwo - self.tempOne)) \
-                           * np.log(self.kmOne / self.kmTwo)
+        activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
+                           * np.log(kmOne / kmTwo)
 
         return activationEnergy
 
