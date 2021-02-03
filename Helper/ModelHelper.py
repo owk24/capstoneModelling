@@ -74,6 +74,68 @@ class ModelHelper:
 
         return masterDF
 
+    def GetConversionVsResidenceTimeWithCstrForCatalase(self, initialS, enzymeConcentrations, Kcat, Km):
+
+        listOfReactants = ["H202"]
+        listOfProducts = ["Water", "Oxygen"]
+        def CSTR_Model(S):
+
+            return initialS - S - residenceTime * (vMax * S) / (Km + S)
+        def CSTR_Model_For_Oxygen(S):
+
+            return initialS - S - residenceTime * (vMax * S) / (Km + S) / 2 #Becayse there is not a 1:1 ratio
+
+        residenceTimeArr = np.linspace(0, 480, 500)  # min
+        prodFormedList = []
+        substrateOutList = []
+        conversionList = []
+        o2FormedList = []
+        o2ConversionList = []
+
+        masterDF = pd.DataFrame()
+        masterDF['Residence Time'] = residenceTimeArr
+
+        for j in enzymeConcentrations:
+            vMax = Kcat * j  # (M/min)`
+            for i in range(0, len(residenceTimeArr)):
+                residenceTime = residenceTimeArr[i]
+
+                finalSubstrateConcentration = fsolve(CSTR_Model, 0.03)
+                if finalSubstrateConcentration < 0:
+                    prodFormedList.append(prodFormedList[i - 1])
+                    substrateOutList.append(substrateOutList[i - 1])
+                    conversionList.append(conversionList[i - 1])
+                else:
+                    substrateOutList.append(finalSubstrateConcentration[0])
+                    productFormed = initialS - finalSubstrateConcentration
+                    prodFormedList.append(productFormed[0])
+                    conversion = (initialS - finalSubstrateConcentration) / initialS
+                    conversionList.append(conversion[0])
+
+                finalSubStrateConsumptionForO2 = fsolve(CSTR_Model_For_Oxygen, 0.03)
+                if finalSubStrateConsumptionForO2 < 0:
+                    o2FormedList.append(o2FormedList[i - 1])
+                    o2ConversionList.append(o2ConversionList[i - 1])
+                else:
+                    o2Formed = initialS - finalSubStrateConsumptionForO2
+                    o2FormedList.append(o2Formed[0])
+                    conversionO2 = (initialS - finalSubStrateConsumptionForO2) / initialS
+                    o2ConversionList.append(conversionO2[0])
+
+            masterDF["H2O2 [M] - [Eo] = {:.2e}M".format(j)] = substrateOutList
+            masterDF["H2O [M] - [Eo] = {:.2e}M".format(j)] = prodFormedList
+            masterDF["O2 [M] - [Eo] = {:.2e}M".format(j)] = o2FormedList
+            masterDF["Conversion - [Eo] = {:.2e}M".format(j)] = conversionList
+            masterDF["Conversion For O2 - [Eo] = {:.2e}M".format(j)] = o2ConversionList
+
+            prodFormedList = []
+            substrateOutList = []
+            conversionList = []
+            o2FormedList = []
+            o2ConversionList = []
+
+        return masterDF
+
     def GetRatesVersusTimeFromModel(self, t, Km, Vm, initialConditions):
         def model(inputs, t, Km, Vm):
             r = Vm * inputs[2] / (Km + inputs[2])

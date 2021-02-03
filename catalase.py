@@ -6,16 +6,14 @@ import pandas as pd
 from Helper.ModelHelper import ModelHelper
 
 invertaseModelHelper = ModelHelper()
-invertaseModelHelper.CreateFoldersForOutput("Invertase")
-constDF = pd.read_csv(Path("Constants") / "InvertaseConstants.csv")
+invertaseModelHelper.CreateFoldersForOutput("Catalase")
+constDF = pd.read_csv(Path("Constants") / "CatalaseConstants.csv")
 
 # initialEnzyme = 9E-09
-listOfReactants = ["Sucrose"]
-listOfProducts = ["Glucose", "Fructose"]
-Kcat = constDF["Kcat (1/min)"][8]
-Km = constDF["Km (M)"][8]
+Kcat = constDF["Kcat (1/min)"][3]
+Km = constDF["Km (M)"][3]
 # Vm = Kcat * initialEnzyme
-temperature = constDF["Temperature (C)"][8]
+temperature = constDF["Temperature (C)"][3]
 
 initialG = 0
 initialF = 0
@@ -24,22 +22,23 @@ initialConditions = [initialG, initialF, initialS]
 
 
 initialEnzymeConcentrations = np.linspace(5e-9, 5e-8, 5)
-masterInvertaseOutput = invertaseModelHelper.GetConversionVsResidenceTimeWithCstr\
-                        (initialS, initialEnzymeConcentrations, Kcat, Km, listOfReactants, listOfProducts)
-titles = masterInvertaseOutput.columns
+masterCatalaseOutput = invertaseModelHelper.\
+    GetConversionVsResidenceTimeWithCstrForCatalase(initialS, initialEnzymeConcentrations, Kcat, Km)
+
+titles = masterCatalaseOutput.columns
 fig = plt.figure()
 
-for i in range(4, len(titles), 4):
-    plt.plot(masterInvertaseOutput['Residence Time'], masterInvertaseOutput[titles[i]], label=titles[i])
+for i in range(4, len(titles), 5):
+    plt.plot(masterCatalaseOutput['Residence Time'], masterCatalaseOutput[titles[i]], label=titles[i])
 
 plt.xlabel("Residence Time [min]")
 plt.ylabel("Conversion [M]")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, Km), fontweight='bold')
-plt.suptitle("Invertase - Conversion vs Residence Time", fontweight='bold')
+plt.suptitle("Invertase - Conversion (1:1) vs Residence Time", fontweight='bold')
 plt.legend(loc="best")
 
-masterInvertaseOutput.to_csv(Path("Output/Invertase/CSVs") / "Invertase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, Km))
-plt.savefig(Path("Output/Invertase/Graphs") / "Invertase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
+masterCatalaseOutput.to_csv(Path("Output/Catalase/CSVs") / "Catalase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, Km))
+plt.savefig(Path("Output/Catalase/Graphs") / "Catalase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
 plt.show()
 
 # t = np.linspace(0, 480, 100)
