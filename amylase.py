@@ -97,9 +97,10 @@ for i in range(4, len(titles), 4):
 
 plt.xlabel("Residence Time [min]")
 plt.ylabel("Conversion [M]")
-plt.title("Conversion vs Residence Time - Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
+plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
                                                                 bindingAffinity)
           ,fontweight='bold')
+plt.suptitle("Amylase - Conversion vs Residence Time", fontweight='bold')
 plt.legend(loc="best")
 
 masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
@@ -107,5 +108,4 @@ masterDataAmylase.to_csv(Path("Output/Amylase/CSVs") /
 plt.savefig(Path("Output/Amylase/Graphs") /
             "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, bindingAffinity))
 plt.show()
-
 
