@@ -1,4 +1,5 @@
 import os
+import math
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -34,7 +35,6 @@ class ModelHelper:
     def GetConversionVsResidenceTimeWithCstr(self, initialS, enzymeConcentrations, Kcat, Km,
                                              listOfReactants, listOfProducts):
         def CSTR_Model(S):
-
             return initialS - S - residenceTime * (vMax * S) / (Km + S)
 
         residenceTimeArr = np.linspace(0, 480, 500)  # min
@@ -79,10 +79,9 @@ class ModelHelper:
         listOfReactants = ["H202"]
         listOfProducts = ["Water", "Oxygen"]
         def CSTR_Model(S):
-
             return initialS - S - residenceTime * (vMax * S) / (Km + S)
-        def CSTR_Model_For_Oxygen(S):
 
+        def CSTR_Model_For_Oxygen(S):
             return initialS - S - residenceTime * (vMax * S) / (Km + S) / 2 #Becayse there is not a 1:1 ratio
 
         residenceTimeArr = np.linspace(0, 480, 500)  # min
@@ -96,7 +95,7 @@ class ModelHelper:
         masterDF['Residence Time'] = residenceTimeArr
 
         for j in enzymeConcentrations:
-            vMax = Kcat * j  # (M/min)`
+            vMax = Kcat * j  # (M/min)
             for i in range(0, len(residenceTimeArr)):
                 residenceTime = residenceTimeArr[i]
 
@@ -135,6 +134,43 @@ class ModelHelper:
             o2ConversionList = []
 
         return masterDF
+
+    def GetDataFromBatchModel(self, Km, Kcat, initialEnzymeConcentrations, residenceTimes,
+                              listOfReactants, listOfProducts):
+        def model(S):
+            return time + Km/Vm*math.log(S/initialEnzymeConcentration) + (S-initialEnzymeConcentration)/Vm
+
+        outputDF = pd.DataFrame()
+        for initialEnzymeConcentration in initialEnzymeConcentrations:
+            productFormedList = []
+            finalSubstrateList = []
+            conversionList = []
+            Vm = Kcat * initialEnzymeConcentration
+            for i in range(len(residenceTimes)):
+                time = residenceTimes[i]
+                finalSubstrateConcentration = fsolve(model, 0.03)[0]
+                print(initialEnzymeConcentration)
+                print(finalSubstrateConcentration)
+                if finalSubstrateConcentration < 0:
+                    finalSubstrateList[i] = finalSubstrateList[i-1]
+                    productFormedList = productFormedList[i-1]
+                    conversionList = [i-1]
+                else:
+                    finalSubstrateList.append(finalSubstrateConcentration)
+                    amountOfProductMade = initialEnzymeConcentration - finalSubstrateConcentration
+                    productFormedList.append(amountOfProductMade)
+                    substrateConversion = (initialEnzymeConcentration - finalSubstrateList)/initialEnzymeConcentration
+                    conversionList.append(substrateConversion)
+
+                for reactant in listOfReactants:
+                    outputDF["{:s} [M] [Eo]={:.2e}M".format(reactant, j)] = finalSubstrateList
+
+                for product in listOfProducts:
+                    outputDF["{:s} [M] [Eo]={:.2e}M".format(product, j)] = productFormedList
+
+                outputDF["Conversion [Eo]={:.2e}M".format(initialEnzymeConcentration)]= conversionList
+
+        return outputDF
 
     def GetRatesVersusTimeFromModel(self, t, Km, Vm, initialConditions):
         def model(inputs, t, Km, Vm):

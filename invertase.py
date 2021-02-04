@@ -24,23 +24,24 @@ initialConditions = [initialG, initialF, initialS]
 
 
 initialEnzymeConcentrations = np.linspace(5e-9, 5e-8, 5)
-masterInvertaseOutput = invertaseModelHelper.GetConversionVsResidenceTimeWithCstr\
-                        (initialS, initialEnzymeConcentrations, Kcat, Km, listOfReactants, listOfProducts)
-titles = masterInvertaseOutput.columns
-fig = plt.figure()
-
-for i in range(4, len(titles), 4):
-    plt.plot(masterInvertaseOutput['Residence Time'], masterInvertaseOutput[titles[i]], label=titles[i])
-
-plt.xlabel("Residence Time [min]")
-plt.ylabel("Conversion [M]")
-plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, Km), fontweight='bold')
-plt.suptitle("Invertase - Conversion vs Residence Time", fontweight='bold')
-plt.legend(loc="best")
-
+residenceTimes = np.linspace(0, 480, 480)
+masterInvertaseOutput = invertaseModelHelper.GetDataFromBatchModel \
+                        (Km, Kcat, initialEnzymeConcentrations, residenceTimes,
+                         ["Sucrose"], ["Glucose", "Fructose"])
 masterInvertaseOutput.to_csv(Path("Output/Invertase/CSVs") / "Invertase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, Km))
-plt.savefig(Path("Output/Invertase/Graphs") / "Invertase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
-plt.show()
+# titles = masterInvertaseOutput.columns
+# fig = plt.figure()
+#
+#
+# plt.xlabel("Residence Time [min]")
+# plt.ylabel("Conversion [M]")
+# plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, Km), fontweight='bold')
+# plt.suptitle("Invertase - Conversion vs Residence Time", fontweight='bold')
+# plt.legend(loc="best")
+#
+#
+# plt.savefig(Path("Output/Invertase/Graphs") / "Invertase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
+# plt.show()
 
 # t = np.linspace(0, 480, 100)
 # invertaseModelOutput = invertaseModelHelper.GetRatesVersusTimeFromModel(t, km, vm, initialConditions)
