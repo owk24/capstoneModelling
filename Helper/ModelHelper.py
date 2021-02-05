@@ -3,6 +3,8 @@ import math
 from pathlib import Path
 import numpy as np
 import pandas as pd
+import sys
+import os
 from scipy.integrate import odeint
 from scipy.optimize import fsolve
 
@@ -15,6 +17,16 @@ class ModelHelper:
         folderDirectoryGraphs = "./Output/{:s}/Graphs".format(enzymeType)
         os.makedirs(Path(folderDirectoryCSVs), exist_ok=True)
         os.makedirs(Path(folderDirectoryGraphs), exist_ok=True)
+
+    def ResourcePath(self, relative_path):
+        """ Get the absolute path to the resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
         activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
