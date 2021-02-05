@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from scipy.integrate import odeint
 from scipy.optimize import fsolve
+from scipy.optimize import root
 
 class ModelHelper:
     def __init__(self):
@@ -36,7 +37,7 @@ class ModelHelper:
                                              listOfReactants, listOfProducts):
         def CSTR_Model(S):
             return initialS - S - residenceTime * (vMax * S) / (Km + S)
-
+        
         residenceTimeArr = np.linspace(0, 480, 500)  # min
         prodFormedList = []
         substrateOutList = []
@@ -136,39 +137,47 @@ class ModelHelper:
         return masterDF
 
     def GetDataFromBatchModel(self, Km, Kcat, initialEnzymeConcentrations, residenceTimes,
-                              listOfReactants, listOfProducts):
+                              listOfReactants, listOfProducts, initialSubstrateConcentration,
+                              isCatalase = False):
         def model(S):
-            return time + Km/Vm*math.log(S/initialEnzymeConcentration) + (S-initialEnzymeConcentration)/Vm
-
+            return (time + Km/Vm*math.log(S/initialSubstrateConcentration) + (S-initialSubstrateConcentration)/Vm)
+        
         outputDF = pd.DataFrame()
+        initGuess = 3e-100
         for initialEnzymeConcentration in initialEnzymeConcentrations:
             productFormedList = []
             finalSubstrateList = []
             conversionList = []
             Vm = Kcat * initialEnzymeConcentration
+            print(initialEnzymeConcentration)
             for i in range(len(residenceTimes)):
                 time = residenceTimes[i]
-                finalSubstrateConcentration = fsolve(model, 0.03)[0]
-                print(initialEnzymeConcentration)
-                print(finalSubstrateConcentration)
+                finalSubstrateConcentration = fsolve(model, initGuess)[0]
+                # print(str(time) + " " + str(finalSubstrateConcentration))
                 if finalSubstrateConcentration < 0:
                     finalSubstrateList[i] = finalSubstrateList[i-1]
                     productFormedList = productFormedList[i-1]
-                    conversionList = [i-1]
+                    conversionList = conversionList[i-1]
                 else:
                     finalSubstrateList.append(finalSubstrateConcentration)
-                    amountOfProductMade = initialEnzymeConcentration - finalSubstrateConcentration
+                    amountOfProductMade = initialSubstrateConcentration - finalSubstrateConcentration
                     productFormedList.append(amountOfProductMade)
-                    substrateConversion = (initialEnzymeConcentration - finalSubstrateList)/initialEnzymeConcentration
+                    substrateConversion = (initialSubstrateConcentration - finalSubstrateConcentration)/initialSubstrateConcentration
                     conversionList.append(substrateConversion)
 
-                for reactant in listOfReactants:
-                    outputDF["{:s} [M] [Eo]={:.2e}M".format(reactant, j)] = finalSubstrateList
+            for reactant in listOfReactants:
+                outputDF["{:s} [M] [Eo]={:.2e}M".format(reactant, initialEnzymeConcentration)] = finalSubstrateList
 
-                for product in listOfProducts:
-                    outputDF["{:s} [M] [Eo]={:.2e}M".format(product, j)] = productFormedList
+            for product in listOfProducts:
+                if isCatalase:
+                    if product == "Oxygen":
+                        outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = [x/2 for x in productFormedList]
+                    else:
+                        outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = productFormedList
+                else: 
+                    outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = productFormedList
 
-                outputDF["Conversion [Eo]={:.2e}M".format(initialEnzymeConcentration)]= conversionList
+            outputDF["Conversion [Eo]={:.2e}M".format(initialEnzymeConcentration)]= conversionList
 
         return outputDF
 
