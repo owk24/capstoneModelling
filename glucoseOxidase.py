@@ -27,12 +27,12 @@ GOXBatchModelDF = glucoseOxidaseHelper.GetDataFromBatchModel(bindingAffinity, kc
 titles = GOXBatchModelDF.columns
 for i in range(4, len(titles), 4):
     title = titles[i]
-    plt.plot(GOXBatchModelDF["Residence Time [min]"], GOXBatchModelDF[title], label=title)
+    plt.plot(GOXBatchModelDF["Time [min]"], GOXBatchModelDF[title], label=title)
 
 plt.xlabel(titles[0])
 plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, bindingAffinity), fontweight='bold')
-plt.suptitle("Glucose Oxidase - Conversion vs Residence Time", fontweight='bold')
+plt.suptitle("Glucose Oxidase - Conversion vs Time", fontweight='bold')
 plt.legend(loc="best")
 
 GOXBatchModelDF.to_csv(Path("Output/Glucose Oxidase/CSVs") /

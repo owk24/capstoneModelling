@@ -29,12 +29,12 @@ amylaseModelBatchDF = amylaseHelper.GetDataFromBatchModel(bindingAffinity, kcat,
 titles = amylaseModelBatchDF.columns
 for i in range(4, len(titles), 4):
     title = titles[i]
-    plt.plot(amylaseModelBatchDF["Residence Time [min]"], amylaseModelBatchDF[title], label=title)
+    plt.plot(amylaseModelBatchDF["Time [min]"], amylaseModelBatchDF[title], label=title)
 
 plt.xlabel(titles[0])
 plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, bindingAffinity), fontweight='bold')
-plt.suptitle("Amylase - Conversion vs Residence Time", fontweight='bold')
+plt.suptitle("Amylase - Conversion vs Time", fontweight='bold')
 plt.legend(loc="best")
 
 amylaseModelBatchDF.to_csv(Path("Output/Amylase/CSVs") /

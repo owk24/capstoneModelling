@@ -43,7 +43,7 @@ class ModelHelper:
         conversionList = []
 
         masterDF = pd.DataFrame()
-        masterDF['Residence Time'] = residenceTimeArr
+        masterDF['Time'] = residenceTimeArr
 
         for j in enzymeConcentrations:
             vMax = Kcat * j  # (M/min)`
@@ -92,7 +92,7 @@ class ModelHelper:
         o2ConversionList = []
 
         masterDF = pd.DataFrame()
-        masterDF['Residence Time'] = residenceTimeArr
+        masterDF['Time'] = residenceTimeArr
 
         for j in enzymeConcentrations:
             vMax = Kcat * j  # (M/min)
@@ -141,7 +141,7 @@ class ModelHelper:
             return time + Km/Vm*math.log(S/initialSubstrateConcentration) + (S-initialSubstrateConcentration)/Vm
         
         outputDF = pd.DataFrame()
-        outputDF["Residence Time [min]"] = residenceTimes
+        outputDF["Time [min]"] = residenceTimes
         initGuess = 3e-100
 
         for initialEnzymeConcentration in initialEnzymeConcentrations:

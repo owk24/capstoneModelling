@@ -29,12 +29,12 @@ titles = catalaseBatchDF.columns
 fig = plt.figure()
 for i in range(4, len(titles), 4):
     title = titles[i]
-    plt.plot(catalaseBatchDF["Residence Time [min]"], catalaseBatchDF[title], label=title)
+    plt.plot(catalaseBatchDF["Time [min]"], catalaseBatchDF[title], label=title)
 
 plt.xlabel(titles[0])
 plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, Km), fontweight='bold')
-plt.suptitle("Catalase - Conversion (1:1) vs Residence Time", fontweight='bold')
+plt.suptitle("Catalase - Conversion (1:1) vs Time", fontweight='bold')
 plt.legend(loc="best")
 
 catalaseBatchDF.to_csv(Path("Output/Catalase/CSVs") / "Catalase_T={0:.0f}C_Km={1:.2e}.csv".format(temperature, Km))

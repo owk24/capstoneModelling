@@ -32,12 +32,12 @@ titles = invertaseModelBatchDF.columns
 fig = plt.figure()
 for i in range(4, len(titles), 4):
     title = titles[i]
-    plt.plot(invertaseModelBatchDF["Residence Time [min]"], invertaseModelBatchDF[title], label=title)
+    plt.plot(invertaseModelBatchDF["Time [min]"], invertaseModelBatchDF[title], label=title)
 
 plt.xlabel(titles[0])
 plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, Km), fontweight='bold')
-plt.suptitle("Invertase - Conversion vs Residence Time", fontweight='bold')
+plt.suptitle("Invertase - Conversion vs Time", fontweight='bold')
 plt.legend(loc="best")
 
 plt.savefig(Path("Output/Invertase/Graphs") / "Invertase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
