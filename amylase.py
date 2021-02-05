@@ -65,7 +65,7 @@ MASS BALANCE
 initialMassStarch = 5 # g Starch/L
 initSubstrateConc = initialMassStarch/359.33 # mol Starch/L
 
-initEnzymeConcentration = np.linspace(1e-7, 9e-7, 5) #M
+initEnzymeConcentration = np.linspace(2e-7, 9e-7, 5) #M
 kcat = constDF['Kcat (1/min)'][9] #1/min
 bindingAffinity = constDF['Km (M)'][9] #M
 temperature = constDF['Temperature (C)'][9]
@@ -80,12 +80,18 @@ masterDataAmylase['Residence Time'] = residenceTimeArr
 
 reactants = ["Starch"]
 products = ["Glucose", "Maltose"]
-masterDataAmylase = amylaseHelper.GetConversionVsResidenceTimeWithCstr(initSubstrateConc,
+masterDataAmylaseCSTRVOID = amylaseHelper.GetConversionVsResidenceTimeWithCstr(initSubstrateConc,
                                                                        initEnzymeConcentration,
                                                                        kcat,
                                                                        bindingAffinity,
                                                                        reactants,
                                                                        products)
+
+masterDataAmylase = amylaseHelper.GetDataFromBatchModel(bindingAffinity, kcat, initEnzymeConcentration, residenceTimeArr,
+                              reactants, products, initSubstrateConc)
+masterDataAmylase['Residence Time'] = residenceTimeArr
+firstColumn = masterDataAmylase.pop("Residence Time")
+masterDataAmylase.insert(0, "Residence Time", firstColumn)
 
 titles = masterDataAmylase.columns
 
@@ -96,7 +102,7 @@ for i in range(4, len(titles), 4):
 
 
 plt.xlabel("Residence Time [min]")
-plt.ylabel("Conversion [M]")
+plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
                                                                 bindingAffinity)
           ,fontweight='bold')

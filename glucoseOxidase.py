@@ -26,6 +26,7 @@ glucoseOxidaseHelper.CreateFoldersForOutput("Glucose Oxidase")
 MASS BALANCE
 '''
 
+
 initialMassStarch = 5 # g glucose/L
 initSubstrateConc = initialMassStarch/180.16 # mol glucose/L
 
@@ -40,16 +41,20 @@ substrateOutList = []
 conversionList = []
 
 masterDataGlucoseOxidase = pd.DataFrame()
-masterDataGlucoseOxidase['Residence Time'] = residenceTimeArr
 
 reactants = ["Glucose"]
 products = ["Gluconic Acid", "Hydrogen Peroxide"]
-masterDataGlucoseOxidase = glucoseOxidaseHelper.GetConversionVsResidenceTimeWithCstr(initSubstrateConc,
+masterDataGlucoseOxidasecCSTRVOID = glucoseOxidaseHelper.GetConversionVsResidenceTimeWithCstr(initSubstrateConc,
                                                                        initEnzymeConcentration,
                                                                        kcat,
                                                                        bindingAffinity,
                                                                        reactants,
                                                                        products)
+masterDataGlucoseOxidase = glucoseOxidaseHelper.GetDataFromBatchModel(bindingAffinity, kcat, initEnzymeConcentration, residenceTimeArr,
+                              reactants, products, initSubstrateConc)
+masterDataGlucoseOxidase['Residence Time'] = residenceTimeArr
+firstColumn = masterDataGlucoseOxidase.pop("Residence Time")
+masterDataGlucoseOxidase.insert(0, "Residence Time", firstColumn)
 
 titles = masterDataGlucoseOxidase.columns
 
@@ -60,7 +65,7 @@ for i in range(4, len(titles), 4):
 
 
 plt.xlabel("Residence Time [min]")
-plt.ylabel("Conversion [M]")
+plt.ylabel("Conversion (%)")
 plt.title("Temp={0:.2f}($^\circ$C), Km={1:.2e}M".format(temperature, 
                                                                 bindingAffinity)
           ,fontweight='bold')
