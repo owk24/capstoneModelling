@@ -1,2 +1,0 @@
-Temperature [C],Km [M],Kcat [1/s],InitialEnzymeConcentration [M],FinalEnzymeConcentration [M],AmountOfEnzymeDataPoints,InitalSubstrateConcentration [M],InitialTime [min],FinalTime [min],AmountOfTimePoints
-80,0.001752727,482,0.0000002,0.0000009,5,0.013914786,0,480,480

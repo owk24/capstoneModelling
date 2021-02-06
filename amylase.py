@@ -6,30 +6,26 @@ import matplotlib.pyplot as plt
 from Helper.ModelHelper import ModelHelper
 
 amylaseHelper = ModelHelper()
-inputsDF = pd.read_csv(Path("./") / "AmylaseInputs.csv")
-constDF = pd.read_csv(Path("Constants") / "AmylaseConstants.csv")
 amylaseHelper.CreateFoldersForOutput("Amylase")
+inputsDF = pd.read_csv(Path("./") / "AmylaseInputs.csv")
+constDF = pd.read_csv(amylaseHelper.ResourcePath(Path("Constants") / "AmylaseConstants.csv"))
 
 Km = float(inputsDF["Km [M]"])
-kcat = float(inputsDF["Kcat [1/s]"])
+Kcat = float(inputsDF["Kcat [1/s]"])
 temperature = int(inputsDF["Temperature [C]"])
-initSubstrateConc = float(inputsDF["InitalSubstrateConcentration [M]"]) #g/L -> mol/L
-initEnzymeConcentration = np.linspace(inputsDF["InitialEnzymeConcentration [M]"][0],
+initSubstrateConcentration = float(inputsDF["InitalSubstrateConcentration [M]"]) #g/L -> mol/L
+initialEnzymeConcentration = np.linspace(inputsDF["InitialEnzymeConcentration [M]"][0],
                                       inputsDF["FinalEnzymeConcentration [M]"][0],
                                       int(inputsDF["AmountOfEnzymeDataPoints"])) #M
-
 residenceTimes = np.linspace(int(inputsDF["InitialTime [min]"]),
                              int(inputsDF["FinalTime [min]"]),
                              int(inputsDF["AmountOfTimePoints"])) #min
-prodFormedList = []
-substrateOutList = []
-conversionList = []
 
 reactants = ["Starch"]
 products = ["Glucose", "Maltose"]
-amylaseModelBatchDF = amylaseHelper.GetDataFromBatchModel(Km, kcat, initEnzymeConcentration,
-                                                          initSubstrateConc, residenceTimes, reactants, products)
-print(amylaseModelBatchDF)
+amylaseModelBatchDF = amylaseHelper.GetDataFromBatchModel(Km, Kcat, initialEnzymeConcentration,
+                                                          initSubstrateConcentration, residenceTimes,
+                                                          reactants, products)
 titles = amylaseModelBatchDF.columns
 for i in range(4, len(titles), 4):
     title = titles[i]
@@ -46,4 +42,3 @@ amylaseModelBatchDF.to_csv(Path("Output/Amylase/CSVs") /
 plt.savefig(Path("Output/Amylase/Graphs") /
             "Amylase_T={0:.0f}C_Km={1:.2e}.png".format(temperature, Km))
 plt.show()
-
