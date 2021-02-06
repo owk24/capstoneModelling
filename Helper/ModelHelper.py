@@ -142,7 +142,7 @@ class ModelHelper:
         
         outputDF = pd.DataFrame()
         outputDF["Time [min]"] = residenceTimes
-        initGuess = 3e-100
+        initGuess = 3e-120
 
         for initialEnzymeConcentration in initialEnzymeConcentrations:
             productFormedList = []
@@ -151,7 +151,11 @@ class ModelHelper:
             Vm = Kcat*initialEnzymeConcentration
             for i in range(0, len(residenceTimes)):
                 time = residenceTimes[i]
-                finalSubstrateConcentration = fsolve(model, initGuess)[0]
+                try:    
+                    finalSubstrateConcentration = fsolve(model, initGuess)[0]
+                except:
+                    finalSubstrateConcentration = finalSubstrateList[i-1]
+
                 finalSubstrateList.append(finalSubstrateConcentration)
                 amountOfProductMade = initialSubstrateConcentration - finalSubstrateConcentration
                 productFormedList.append(amountOfProductMade)

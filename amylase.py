@@ -9,15 +9,15 @@ constDF = pd.read_csv(Path("Constants") / "AmylaseConstants.csv")
 amylaseHelper = ModelHelper()
 amylaseHelper.CreateFoldersForOutput("Amylase")
 
-initalMassSucrose = 5 # g/L
-initSubstrateConc = initalMassSucrose/359.33 #g/L -> mol/L
+initalMassStarch = 101.5466 # g/L
+initSubstrateConc = initalMassStarch/359.33 #g/L -> mol/L
 
-initEnzymeConcentration = np.linspace(2e-7, 9e-7, 5) #M
+initEnzymeConcentration = np.linspace(4e-6, 6e-6, 5) #M
 kcat = constDF['Kcat (1/min)'][9]
 bindingAffinity = constDF['Km (M)'][9]
 temperature = constDF['Temperature (C)'][9]
 
-residenceTimeArr = np.linspace(0, 480, 500) #min
+residenceTimeArr = np.linspace(0, 150, 480) #min
 prodFormedList = []
 substrateOutList = []
 conversionList = []
