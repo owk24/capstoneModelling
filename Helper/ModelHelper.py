@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.integrate import odeint
 from scipy.optimize import fsolve
 
+
 class ModelHelper:
     def __init__(self):
         self.R = 8.314
@@ -17,26 +18,26 @@ class ModelHelper:
         os.makedirs(Path(folderDirectoryGraphs), exist_ok=True)
 
     def GetActivationEnergyFromClausiusClapeyron(self, tempOne, kmOne, tempTwo, kmTwo) -> float:
-        activationEnergy = self.R * (tempOne*tempTwo/(tempTwo - tempOne)) \
+        activationEnergy = self.R * (tempOne * tempTwo / (tempTwo - tempOne)) \
                            * np.log(kmOne / kmTwo)
 
         return activationEnergy
 
     def GetDesiredKmFromActivationEnergy(self, kmKnown, tempKnown, tempDesired, activationEnergy) -> float:
-        kmDesired = kmKnown * np.exp((-activationEnergy/self.R) * ((1/tempDesired) - (1/tempKnown)))
+        kmDesired = kmKnown * np.exp((-activationEnergy / self.R) * ((1 / tempDesired) - (1 / tempKnown)))
 
         return kmDesired
 
     def GetRateFromMichaelisModelReaction(self, Km, Vmax, S) -> float:
         reactionRate = Vmax * S / (Km + S)
-        
+
         return reactionRate
 
     def GetConversionVsResidenceTimeWithCstr(self, initialS, enzymeConcentrations, Kcat, Km,
                                              listOfReactants, listOfProducts):
         def CSTR_Model(S):
             return initialS - S - residenceTime * (vMax * S) / (Km + S)
-        
+
         residenceTimeArr = np.linspace(0, 480, 500)  # min
         prodFormedList = []
         substrateOutList = []
@@ -78,11 +79,12 @@ class ModelHelper:
 
         listOfReactants = ["H202"]
         listOfProducts = ["Water", "Oxygen"]
+
         def CSTR_Model(S):
             return initialS - S - residenceTime * (vMax * S) / (Km + S)
 
         def CSTR_Model_For_Oxygen(S):
-            return initialS - S - residenceTime * (vMax * S) / (Km + S) / 2 #Becayse there is not a 1:1 ratio
+            return initialS - S - residenceTime * (vMax * S) / (Km + S) / 2  # Becayse there is not a 1:1 ratio
 
         residenceTimeArr = np.linspace(0, 480, 500)  # min
         prodFormedList = []
@@ -136,10 +138,11 @@ class ModelHelper:
         return masterDF
 
     def GetDataFromBatchModel(self, Km, Kcat, initialEnzymeConcentrations, initialSubstrateConcentration,
-                              residenceTimes, listOfReactants, listOfProducts,isCatalase=False):
+                              residenceTimes, listOfReactants, listOfProducts, isCatalase=False):
         def model(S):
-            return time + Km/Vm*math.log(S/initialSubstrateConcentration) + (S-initialSubstrateConcentration)/Vm
-        
+            return time + Km / Vm * math.log(S / initialSubstrateConcentration) + (
+                        S - initialSubstrateConcentration) / Vm
+
         outputDF = pd.DataFrame()
         outputDF["Time [min]"] = residenceTimes
         initGuess = 3e-120
@@ -148,13 +151,13 @@ class ModelHelper:
             productFormedList = []
             finalSubstrateList = []
             conversionList = []
-            Vm = Kcat*initialEnzymeConcentration
+            Vm = Kcat * initialEnzymeConcentration
             for i in range(0, len(residenceTimes)):
                 time = residenceTimes[i]
-                try:    
+                try:
                     finalSubstrateConcentration = fsolve(model, initGuess)[0]
                 except:
-                    finalSubstrateConcentration = finalSubstrateList[i-1]
+                    finalSubstrateConcentration = finalSubstrateList[i - 1]
 
                 finalSubstrateList.append(finalSubstrateConcentration)
                 amountOfProductMade = initialSubstrateConcentration - finalSubstrateConcentration
@@ -169,11 +172,11 @@ class ModelHelper:
                 if isCatalase:
                     if product == "Oxygen":
                         outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = \
-                            [x/2 for x in productFormedList]
+                            [x / 2 for x in productFormedList]
                     else:
                         outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = \
                             productFormedList
-                else: 
+                else:
                     outputDF["{:s} [M] [Eo]={:.2e}M".format(product, initialEnzymeConcentration)] = productFormedList
 
             outputDF["Conversion [Eo]={:.2e}M".format(initialEnzymeConcentration)] = conversionList
