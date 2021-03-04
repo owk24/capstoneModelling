@@ -23,11 +23,11 @@ substrateOutList = []
 conversionList = []
 
 reactants = ["Starch"]
-products = ["Glucose", "Maltose"]
+products = ["Maltose"]
 amylaseModelBatchDF = amylaseHelper.GetDataFromBatchModel(bindingAffinity, kcat, initEnzymeConcentration,
                                                           initSubstrateConc, residenceTimeArr, reactants, products)
 titles = amylaseModelBatchDF.columns
-for i in range(4, len(titles), 4):
+for i in range(3, len(titles), 3):
     title = titles[i]
     plt.plot(amylaseModelBatchDF["Time [min]"], amylaseModelBatchDF[title], label=title)
 

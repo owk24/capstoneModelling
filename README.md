@@ -4,7 +4,7 @@ Capstone Project for the University of Waterloo - Department of Chemical Enginee
 
 The reactions being modelled are:
 * `Sucrose` + `Water` into `Glucose` + `Fructose` with `Invertase`
-* `Starch` into `Maltose` + `Fructose` with `Amylase`
+* `Starch` into `Maltose` with `Amylase`
 * `Glucose` + `Water` + `Oxygen` into `Hydrogen Peroxide` + `Gluconic Acid` with `Glucose Oxidase`
 * `Hydrogen Peroxide` into `Water` + `Oxygen` with `Catalase`
 
